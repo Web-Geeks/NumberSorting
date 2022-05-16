@@ -30,13 +30,15 @@ namespace NumberSorting.Services
             var fileName = $"NumbersFile.json";
             string json = JsonSerializer.Serialize(numbers);
             await File.WriteAllTextAsync($"{dirPath}{fileName}", json);
-            
+
 
         }
 
         public async Task<string[]> Load()
         {
             var dirPath = $"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\\TestFiles\\";
+
+            if (!Directory.Exists(dirPath)) return Array.Empty<string>();
             var fileName = $"NumbersFile.json";
 
             var reader = new StreamReader($"{dirPath}{fileName}");
@@ -44,8 +46,10 @@ namespace NumberSorting.Services
             var deserializeObject = JsonConvert.DeserializeObject<List<string>>(json);
 
             return deserializeObject.ToArray();
+
+
         }
-        
+
         private int[] MergeSort(int[] numbers)
         {
             //base case if numbers contain less than or equal to one
